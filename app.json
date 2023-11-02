@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Binghamton-Study-Groups",
+    "slug": "Binghamton-Study-Groups",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

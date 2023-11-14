@@ -1,9 +1,10 @@
 #import "AppDelegate.h"
+#import <Expo/Expo.h>
 #import <Firebase.h> // added firebase imports
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
 
-@implementation AppDelegate
+@implementation AppDelegate : EXAppDelegateWrapper
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

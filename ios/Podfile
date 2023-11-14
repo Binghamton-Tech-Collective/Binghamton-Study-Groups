@@ -8,6 +8,7 @@ ENV['RCT_NEW_ARCH_ENABLED'] = podfile_properties['newArchEnabled'] == 'true' ? '
 ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] = podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
 
 platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
+
 install! 'cocoapods',
   :deterministic_uuids => false
 
@@ -39,6 +40,13 @@ end
 
 target 'BinghamtonStudyGroups' do
   use_expo_modules!
+	  post_integrate do |installer|
+	    begin
+	      expo_patch_react_imports!(installer)
+	    rescue => e
+	      Pod::UI.warn e
+	    end
+	  end
   config = use_native_modules!
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
@@ -78,6 +86,11 @@ target 'BinghamtonStudyGroups' do
   end
 
   post_integrate do |installer|
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
     begin
       expo_patch_react_imports!(installer)
     rescue => e

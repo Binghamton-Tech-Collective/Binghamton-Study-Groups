@@ -3,6 +3,9 @@
 # dependencies
 node_modules/
 
+#debug
+.vscode
+
 # Expo
 .expo/
 dist/
@@ -33,3 +36,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Expo
+.expo
+dist/
+web-build/

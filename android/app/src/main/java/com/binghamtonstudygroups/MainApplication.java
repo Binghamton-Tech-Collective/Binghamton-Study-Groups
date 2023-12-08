@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import androidx.annotation.NonNull;
 
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -17,6 +18,18 @@ import com.facebook.soloader.SoLoader;
 
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
+
+//import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
+//import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
+import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
+import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
+import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
+
+
+
 
 import java.util.List;
 
@@ -33,8 +46,14 @@ public class MainApplication extends Application implements ReactApplication {
       protected List<ReactPackage> getPackages() {
         @SuppressWarnings("UnnecessaryLocalVariable")
         List<ReactPackage> packages = new PackageList(this).getPackages();
+        
         // Packages that cannot be autolinked yet can be added manually here, for example:
         // packages.add(new MyReactNativePackage());
+        packages.add(new ReactNativeFirebaseAppPackage());
+        packages.add(new RNFirebaseAuthPackage());
+        packages.add(new RNFirebaseRemoteConfigPackage());
+        packages.add(new ReactNativeFirebaseFirestorePackage());
+        packages.add(new RNFirebaseFunctionsPackage());
         return packages;
       }
 

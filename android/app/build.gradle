@@ -1,4 +1,3 @@
-apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: "com.android.application" //Added Firebase Plugin
 apply plugin: "com.google.gms.google-services" //Added Firebase Plugin

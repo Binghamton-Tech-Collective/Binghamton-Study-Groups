@@ -2,6 +2,7 @@
   "expo": {
     "name": "Binghamton-Study-Groups",
     "slug": "Binghamton-Study-Groups",
+    "scheme": "Binghamton-Study-Groups",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,16 +16,34 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "bundleIdentifier": "com.BinghamtonStudyGroups",
+      "useFrameworks": "static"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
+        "package": "com.BinghamtonStudyGroups",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.BinghamtonStudyGroups"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "expo-router"
+    ]
   }
 }

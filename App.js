@@ -1,14 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert, useState, TextInput, SafeAreaView } from 'react-native';
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
+import React from 'react';
 
-export default function App() {
+
+async function fetchJSONAsync() {
+  const userDocument = await firestore().collection('Value').doc('TestDocument').get();
+  console.log(userDocument.data());
+
+}
+
+
+ 
+
+const  App = () => {
+  const [username, onChangeText] = React.useState('');
+  
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text>Welcome!</Text>
+      <SafeAreaView>
+      <TextInput
+      style = {styles.input}
+      onChangeText = {onChangeText}
+      value = 'hello'
+      />
+      </SafeAreaView>
     </View>
+   
   );
+
+
+
 }
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -17,4 +44,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+    },
+  });

@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { Link, router } from 'expo-router'
 import stylesUserInfo from '../../styles/stylesUserInfo'
+import newUser from '../../services/newUser'
 
 // Major list with placeholders
 const MAJORS = [
@@ -39,6 +40,17 @@ const userInfo = () => {
 		console.log('Skip button pressed')
 	}
 
+	const printUser = () => {
+		console.log('User Information:')
+		console.log('Username:', newUser.userName)
+		console.log('Phone Number:', newUser.phoneNumber)
+		console.log('Email:', newUser.email)
+		console.log('Major:', newUser.major)
+		console.log('Year:', newUser.year)
+		console.log('Password:', newUser.password)
+		console.log('Full Name:', newUser.fullName)
+	}
+
 	return (
 		<SafeAreaView>
 			<View style={stylesUserInfo.container}>
@@ -62,6 +74,7 @@ const userInfo = () => {
 						onChange={(item) => {
 							setMajorValue(item.value)
 							setIsMajorFocus(false)
+							newUser.setMajor(item.value)
 						}}
 					/>
 					<Text style={{ ...stylesUserInfo.dropdownLabel, marginTop: 200 }}>Graduation Year</Text>
@@ -82,6 +95,7 @@ const userInfo = () => {
 						onChange={(item) => {
 							setYearValue(item.value)
 							setIsYearFocus(false)
+							newUser.setYear(item.value)
 						}}
 					/>
 				</View>
@@ -89,6 +103,7 @@ const userInfo = () => {
 					<TouchableOpacity
 						// onPress={handleSkip}
 						onPress={() => router.push('/(HomeScreen)')}
+						// onPress={printUser}
 						style={stylesUserInfo.skipButton}
 					>
 						<Text style={stylesUserInfo.skipButtonText}>Skip</Text>

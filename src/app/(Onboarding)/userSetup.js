@@ -3,6 +3,7 @@ import React, { useState, useContext, createContext } from 'react'
 import ArrowButton from '../../components/functional/ArrowButton.js'
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
+import newUser from '../../services/newUser'
 
 const userSetup = () => {
 	const [password, setPassword] = useState('')
@@ -18,8 +19,24 @@ const userSetup = () => {
 
 			<View style={styles.center}>
 				<Text style={styles.heading}>Set Up Your Profile!</Text>
-				<TextInput style={styles.form} value={fullName} onChangeText={(fullName) => setFullName(fullName)} placeholder="Full Name" />
-				<TextInput style={styles.form} value={password} onChangeText={(password) => setPassword(password)} placeholder="Password" />
+				<TextInput
+					style={styles.form}
+					value={fullName}
+					onChangeText={(fullName) => {
+						setFullName(fullName)
+						newUser.setFullName(fullName)
+					}}
+					placeholder="Full Name"
+				/>
+				<TextInput
+					style={styles.form}
+					value={password}
+					onChangeText={(password) => {
+						setPassword(password)
+						newUser.setPassword(password)
+					}}
+					placeholder="Password"
+				/>
 				<Pressable
 					// TODO: ONLY NAVIGATE TO USERINFO IF SIGNUP IS SUCCESSFUL
 					style={styles.orangeButton}

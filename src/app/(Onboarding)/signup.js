@@ -3,6 +3,7 @@ import React, { useState, useContext, createContext } from 'react'
 import ArrowButton from '../../components/functional/ArrowButton.js'
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
+import newUser from '../../services/newUser'
 
 const signup = () => {
 	const [email, setEmail] = useState('')
@@ -42,9 +43,26 @@ const signup = () => {
 					</View>
 
 					{mode === 'email' ? (
-						<TextInput style={styles.form} value={email} onChangeText={(email) => setEmail(email)} placeholder="Email" />
+						<TextInput
+							style={styles.form}
+							value={email}
+							onChangeText={(email) => {
+								setEmail(email)
+								newUser.setEmail(email)
+							}}
+							placeholder="Email"
+						/>
 					) : (
-						<TextInput style={styles.form} value={phoneNumber} onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)} placeholder="Phone Number" keyboardType={'phone-pad'} />
+						<TextInput
+							style={styles.form}
+							value={phoneNumber}
+							onChangeText={(phoneNumber) => {
+								setPhoneNumber(phoneNumber)
+								newUser.setPhoneNumber(phoneNumber)
+							}}
+							placeholder="Phone Number"
+							keyboardType={'phone-pad'}
+						/>
 					)}
 
 					<View style={styles.orContainer}>

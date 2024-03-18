@@ -8,7 +8,7 @@ export default function AppEntry() {
 			}}
 		>
 			<Stack.Screen name="(Onboarding)" options={{ headerShown: false }} />
-			<Stack.screen name="(HomeScreen)" options={{ headerShown: false }} />
+			<Stack.Screen name="(HomeScreen)" options={{ headerShown: false }} />
 		</Stack>
 	)
 }

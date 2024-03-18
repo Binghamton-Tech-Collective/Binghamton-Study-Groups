@@ -16,7 +16,7 @@ const index = () => {
 	// Mode 2- Sign up (Email)
 	// Mode 3 - Sign up part 2 (Phone number)
 	// Mode 4 - Sign up part 3 (Full name + password)
-
+	
 	return (
 		<View>
 			{/* <Pressable onPress={() => router.replace('signup')}>

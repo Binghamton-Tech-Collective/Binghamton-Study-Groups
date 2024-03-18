@@ -32,12 +32,12 @@ const UserInfoPage = () => {
   
   const [isMajorFocus, setIsMajorFocus] = useState(false);
   const [isYearFocus, setIsYearFocus] = useState(false);
-
+  
   // Blank handle for the skip button
   const handleSkip = () => {
     console.log('Skip button pressed');
   };
-
+  
   return (
     <SafeAreaView>
       <View style={stylesUserInfo.container}>

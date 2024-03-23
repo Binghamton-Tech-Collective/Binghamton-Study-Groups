@@ -3,7 +3,11 @@ import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { Link, router } from 'expo-router'
 import stylesUserInfo from '../../styles/stylesUserInfo'
+import createNewUser from '../../server/newUser.js'
+import {SignUp} from '../../services/loginFunctions.js'
+import FirebaseAuth from '@react-native-firebase/auth'
 import newUser from '../../services/newUser'
+import currentUser from '../../services/currentUser.js'
 
 // Major list with placeholders
 const MAJORS = [
@@ -102,7 +106,34 @@ const userInfo = () => {
 				<View style={{ alignItems: 'center' }}>
 					<TouchableOpacity
 						// onPress={handleSkip}
-						onPress={() => router.push('/(HomeScreen)')}
+						onPress={() => {
+            SignUp(FirebaseAuth(), newUser.email, newUser.password).then(
+              () => {
+              const auth = FirebaseAuth().currentUser;
+								if (auth === null) {
+									alert("User SignUp failed");
+								}else{
+                  newUser.uniqueUserId = auth.uid;
+                 
+				  createNewUser(newUser.uniqueUserId, newUser.fullName, newUser.major, newUser.year, newUser.email).then( () => {
+				  
+				  currentUser.setUniqueUserId(auth.uid);						
+				  currentUser.initializeUser().then( ()=> {
+                  router.push('../(HomeScreen)/homescreen');
+				  })
+				  })
+                }
+            })
+              .catch(err =>{
+                console.error("Sign up Error", err)
+              })
+             
+            }}
+            
+            
+            
+            
+           
 						// onPress={printUser}
 						style={stylesUserInfo.skipButton}
 					>

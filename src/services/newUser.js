@@ -1,4 +1,5 @@
 class newUser {
+	static uniqueUserId = null
 	static userName = null
 	static phoneNumber = null
 	static email = null
@@ -7,7 +8,11 @@ class newUser {
 	static password = null
 	static fullName = null
 
-	static userName(currentUserName) {
+	static uniqueUserId(uniqueUserId){
+		this.uniqueUserId = uniqueUserId
+	}
+
+	static setUserName(userName) {
 		this.userName = userName
 	}
 

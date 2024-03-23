@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
-import styles from '../../styles/discoverPage'
+import styles from '../../../styles/discoverPage'
 import { Link, router } from 'expo-router'
 
 /*
@@ -63,7 +63,7 @@ const index = () => {
 
 			<View style={styles.heading}>
 				<Text style={{ fontSize: 16 }}>For You:</Text>
-				<Pressable onPress={() => router.push('forYou')}>
+				<Pressable onPress={() => router.push('../forYou')}>
 					<Text style={{ color: '#808080' }}>see all</Text>
 				</Pressable>
 			</View>
@@ -90,7 +90,7 @@ const index = () => {
 			<View style={{ marginTop: 310 }}>
 				<View style={styles.heading}>
 					<Text style={{ fontSize: 16 }}>Groups:</Text>
-					<Pressable onPress={() => router.push('groupForYou')}>
+					<Pressable onPress={() => router.push('../groupForYou')}>
 						<Text style={{ color: '#808080' }}>see all</Text>
 					</Pressable>
 				</View>

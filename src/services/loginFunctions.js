@@ -1,4 +1,5 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import FirebaseAuth from '@react-native-firebase/auth';
 
 const SignUp = async (auth, email, password) => {
     const regex = /^[a-zA-Z0-9._%+-]+@binghamton.edu$/;
@@ -7,8 +8,8 @@ const SignUp = async (auth, email, password) => {
     }
 
     try {
-        const userCredential = await createUserWithEmailAndPassword(
-            auth,
+        const userCredential = await FirebaseAuth().createUserWithEmailAndPassword(
+            
             email,
             password
         );
@@ -24,4 +25,30 @@ const SignUp = async (auth, email, password) => {
     }
 };
 
-export { SignUp };
+const SignIn = async (auth, email, password) => {
+    try {
+        const userCredential = await FirebaseAuth().signInWithEmailAndPassword(
+            email,
+            password
+        );
+        return userCredential;
+    } catch (error) {
+        console.error("Sign-in failed:", error);
+        throw error;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export { SignUp, SignIn };

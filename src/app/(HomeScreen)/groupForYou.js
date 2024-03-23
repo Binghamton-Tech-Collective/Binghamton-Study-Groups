@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
-import { groups } from './discover.js'
-import styles from '../../styles/discoverPage'
+import { groups } from './(Tabs)/discover.js'
+import styles from '../../styles/discoverPage.js'
 import { Link, router } from 'expo-router'
 
 const groupForYou = () => {

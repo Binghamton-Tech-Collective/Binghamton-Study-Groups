@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
-import { users } from './discover.js'
-import styles from '../../styles/discoverPage'
+import { users } from './(Tabs)/discover.js'
+import styles from '../../styles/discoverPage.js'
 import { Link, router } from 'expo-router'
 
 const forYou = () => {

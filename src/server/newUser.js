@@ -3,22 +3,23 @@ import Firestore from '@react-native-firebase/firestore';
 import moment from  'moment';
 
 
-const newUser = async (uniqueUserId) => {
+const createNewUser = async (uniqueUserId, fullName, major, year, email) => {
     try {
             const date = moment()
-            .utcOffset('+05:30')
+            .utcOffset('-05:00')
             .format('YYYY-MM-DD hh:mm:ss a');
              console.log("Test")
             
              await Firestore().collection('Users').doc(uniqueUserId).set({
                 
                 timestampCreated: date,
-                email: "",
-                fullName: "",
-                major: "",
-                year: 1234,
+                email: {email},
+                fullName: {fullName},
+                major: {major},
+                year: {year},
                 bio: "",
-                friends: []
+                friends: [],
+                studyGroups: []
             });
             console.log("Added User")
         }
@@ -28,4 +29,4 @@ const newUser = async (uniqueUserId) => {
     console.log("End Function")
 }
 
-export default newUser;
+export default createNewUser;

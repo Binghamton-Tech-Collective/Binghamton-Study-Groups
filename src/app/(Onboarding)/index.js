@@ -6,7 +6,7 @@ import styles from '../../styles/signInPage.js'
 import { SignIn } from '../../services/loginFunctions.js'
 import FirebaseAuth from '@react-native-firebase/auth'
 import currentUser from '../../services/currentUser.js'
-import newUser  from '../../server/newUser.js'
+import newUser from '../../server/newUser.js'
 
 const index = () => {
 	const [email, setEmail] = useState('')
@@ -14,6 +14,7 @@ const index = () => {
 	const [phoneNumber, setPhoneNumber] = useState('')
 	const [fullName, setFullName] = useState('')
 	const [mode, setMode] = useState(1)
+	const [errorMessage, setErrorMessage] = useState("")
 	// Mode 1 - Log in
 	// Mode 2- Sign up (Email)
 	// Mode 3 - Sign up part 2 (Phone number)
@@ -49,30 +50,32 @@ const index = () => {
 						<Pressable
 							// TODO: ONLY NAVIGATE TO HOMESCREEN IF LOGIN IS SUCCESSFUL
 							onPress={() => {
-							SignIn(FirebaseAuth, email, password)
-								.then(userCredential => {
-									// Handle successful sign-in
-									const auth = FirebaseAuth().currentUser;
-									if (auth === null) {
-										alert("User authentication failed");
-									} else {
-										currentUser.setUniqueUserId(auth.uid);
-										
-										currentUser.initializeUser().then( ()=> {
-											
-										router.push('../(HomeScreen)/(Tabs)/homescreen');
+								SignIn(FirebaseAuth, email, password)
+									.then(userCredential => {
+										// Handle successful sign-in
+										const auth = FirebaseAuth().currentUser;
+										if (auth === null) {
+											alert("User authentication failed");
+										} else {
+											currentUser.setUniqueUserId(auth.uid);
+
+											currentUser.initializeUser().then(() => {
+
+												router.push('../(HomeScreen)/(Tabs)/homescreen');
+											})
+										}
 									})
-									}
-								})
-								.catch(error => {
-									// Handle sign-in error
-									console.error("Sign-in error:", error);
-								});
+									.catch(error => {
+										setErrorMessage("Sign-in error: " + error.message);
+									});
 							}}
 							style={styles.orangeButton}
 						>
 							<Text style={styles.orangeButtonText}>Log In</Text>
 						</Pressable>
+						{errorMessage !== '' && (
+							<Text style={styles.errorMessage}>{errorMessage}</Text>
+						)}
 					</View>
 				</View>
 			</View>

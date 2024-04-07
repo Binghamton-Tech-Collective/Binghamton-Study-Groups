@@ -1,7 +1,8 @@
-import React, { useState, useContext, createContext } from 'react'
+import React, { useState, useContext, createContext, useEffect } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
 import styles from '../../../styles/discoverPage'
 import { Link, router } from 'expo-router'
+import { getSuggestedUsers } from '../../../services/suggestedUsers.js'
 
 /*
 	Discover Page: Where users can discover new study groups friend recommendations from related users
@@ -55,6 +56,21 @@ export const users = createContext(SAMPLE_USERS)
 export const groups = createContext(SAMPLE_GROUPS)
 
 const index = () => {
+	const [suggestedUsers, setSuggestedUsers] = useState([])
+
+	useEffect(() => {
+		const fetchSuggestedUsers = async () => {
+			try {
+				const result = await getSuggestedUsers()
+				setSuggestedUsers(result)
+				// console.log(result)
+			} catch (error) {
+				console.error(error)
+			}
+		}
+		fetchSuggestedUsers()
+	}, [])
+
 	return (
 		<SafeAreaView>
 			<View style={styles.banner}>
@@ -69,22 +85,23 @@ const index = () => {
 			</View>
 
 			<View style={styles.usersContainer}>
-				{SAMPLE_USERS.slice(0, 9).map((user) => (
-					<View style={styles.userItem}>
-						<View style={styles.userItemFlex}>
-							<View style={{ flex: 1, flexDirection: 'col', alignItems: 'center' }}>
-								<Image style={styles.profileImage} source={{ uri: user.profileImageURL }} />
-								<Text numberOfLines={1} style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
-									{user.fullName}
-								</Text>
-								<Text style={{ color: '#92AA9D', fontSize: 12, textAlign: 'center' }}>{user.pronouns}</Text>
+				{suggestedUsers &&
+					suggestedUsers.slice(0, 9).map((user) => (
+						<View style={styles.userItem}>
+							<View style={styles.userItemFlex}>
+								<View style={{ flex: 1, flexDirection: 'col', alignItems: 'center' }}>
+									{/* <Image style={styles.profileImage} source={{ uri: user.profileImageURL }} /> */}
+									<Text numberOfLines={1} style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
+										{user.fullName.fullName}
+									</Text>
+									<Text style={{ color: '#92AA9D', fontSize: 12, textAlign: 'center' }}>{user.email.email}</Text>
+								</View>
+								<TouchableOpacity style={styles.button}>
+									<Text>Add</Text>
+								</TouchableOpacity>
 							</View>
-							<TouchableOpacity style={styles.button}>
-								<Text>Add</Text>
-							</TouchableOpacity>
 						</View>
-					</View>
-				))}
+					))}
 			</View>
 
 			<View style={{ marginTop: 310 }}>

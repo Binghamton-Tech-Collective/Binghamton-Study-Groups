@@ -1,5 +1,5 @@
 import Firestore from '@react-native-firebase/firestore'
-import newUser from './newUser'
+import currentUser from './currentUser'
 
 const getSuggestedUsers = async () => {
 	let tempDoc = []
@@ -28,6 +28,8 @@ const getSuggestedUsers = async () => {
 		throw error
 	}
 
+	// remove yourself from suggested users
+	tempDoc = tempDoc.filter((item) => item.id !== currentUser.uniqueUserId)
 	return tempDoc
 }
 

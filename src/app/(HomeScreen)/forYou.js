@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
 import { users } from './(Tabs)/discover.js'
 import styles from '../../styles/discoverPage.js'
 import { Link, router } from 'expo-router'
-import { getSuggestedUsers } from '../../services/suggestedUsers.js'
+import { getSuggestedUsers } from '../../services/suggestedFunctions.js'
 
 const forYou = () => {
-	// const SAMPLE_USERS = useContext(users)
 	const [suggestedUsers, setSuggestedUsers] = useState([])
 
 	useEffect(() => {
@@ -38,7 +37,8 @@ const forYou = () => {
 						<View style={styles.userItem} key={user.id}>
 							<View style={styles.userItemFlex}>
 								<View style={{ flex: 1, flexDirection: 'col', alignItems: 'center' }}>
-									{/* <Image style={styles.profileImage} source={{ uri: user.profileImageURL }} /> */}
+									{/* // TODO: conditional rendering for user profile picture */}
+									<Image style={styles.profileImage} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png' }} />
 									<Text numberOfLines={1} style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
 										{user.fullName.fullName}
 									</Text>

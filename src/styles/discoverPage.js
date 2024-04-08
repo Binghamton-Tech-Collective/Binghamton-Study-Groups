@@ -81,6 +81,24 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	filterButton: {
+		textAlign: 'center',
+		backgroundColor: '#015A42',
+		width: 100,
+		height: 40,
+		marginVertical: 8,
+		borderRadius: 24,
+		paddingLeft: 16,
+	},
+	filters: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		padding: 20,
+		gap: 10,
+		alignItems: 'center',
+		alignContent: 'center',
+	},
 })
 
 export default styles

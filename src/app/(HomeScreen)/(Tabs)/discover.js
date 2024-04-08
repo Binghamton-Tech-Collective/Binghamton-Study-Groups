@@ -8,6 +8,8 @@ import { getSuggestedUsers, getSuggestedGroups } from '../../../services/suggest
 	Discover Page: Where users can discover new study groups friend recommendations from related users
 */
 
+// TODO: REPLACE SAMPLE_GROUPS WITH SUGGESTEDGROUPS ONCE SUGGESTEDGROUPS COLLECTION IS DONE.
+
 const SAMPLE_GROUPS = [
 	{
 		groupName: 'Calculus',
@@ -40,6 +42,7 @@ export const groups = createContext(SAMPLE_GROUPS)
 
 const index = () => {
 	const [suggestedUsers, setSuggestedUsers] = useState([])
+	const [suggestedGroups, setSuggestedGroups] = useState([])
 
 	useEffect(() => {
 		const fetchSuggestedUsers = async () => {
@@ -51,7 +54,19 @@ const index = () => {
 				console.error(error)
 			}
 		}
+
+		const fetchSuggestedGroups = async () => {
+			try {
+				const result = await getSuggestedGroups()
+				setSuggestedGroups(result)
+				// console.log(result)
+			} catch (error) {
+				console.error(error)
+			}
+		}
+
 		fetchSuggestedUsers()
+		fetchSuggestedGroups()
 	}, [])
 
 	return (

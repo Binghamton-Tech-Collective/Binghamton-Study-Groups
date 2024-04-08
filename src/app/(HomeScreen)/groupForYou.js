@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
 import { groups } from './(Tabs)/discover.js'
 import styles from '../../styles/discoverPage.js'
@@ -6,13 +6,15 @@ import { Link, router } from 'expo-router'
 import { getSuggestedUsers, getSuggestedGroups } from '../../services/suggestedFunctions.js'
 
 const groupForYou = () => {
+	// TODO: CURRENTLY DISPLAYS SAMPLE_GROUPS, NOT SUGGESTEDGROUPS. DELETE SAMPLE_GROUPS WHEN STUDYGROUPS COLLECTION IS FINISHED.
+
 	const SAMPLE_GROUPS = useContext(groups)
 	const [suggestedGroups, setSuggestedGroups] = useState([])
 
 	useEffect(() => {
 		const fetchSuggestedGroups = async () => {
 			try {
-				const result = await suggestedGroups()
+				const result = await getSuggestedGroups()
 				setSuggestedGroups(result)
 				// console.log(result)
 			} catch (error) {
@@ -37,7 +39,6 @@ const groupForYou = () => {
 					<View style={styles.groupItem}>
 						<View style={styles.groupItemFlex}>
 							<View style={{ flexDirection: 'row', flex: 1, gap: 6 }}>
-								{/*  */}
 								<Image style={styles.profileImage} source={{ uri: group.groupProfileImageURL }} />
 								<View style={{ flexDirection: 'col', flex: 1 }}>
 									<Text style={{ color: 'white', fontSize: 16 }}>{group.groupName}</Text>

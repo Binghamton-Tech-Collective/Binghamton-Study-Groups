@@ -28,8 +28,11 @@ const getSuggestedUsers = async () => {
 		throw error
 	}
 
-	// remove yourself from suggested users
+	// remove yourself and users you're alreayd friended with from appearing in suggested users
 	tempDoc = tempDoc.filter((item) => item.id !== currentUser.uniqueUserId)
+	if (currentUser.friends != null && currentUser.friends !== undefined && currentUser.friends.length > 0) {
+		tempDoc = tempDoc.filter((item) => !currentUser.friends.includes(item.id))
+	}
 	return tempDoc
 }
 
@@ -49,7 +52,9 @@ const getSuggestedGroups = async () => {
 		throw error
 	}
 
-	tempDoc = tempDoc.filter((item) => !currentUser.studyGroups.includes(item.id))
+	if (currentUser.studyGroups != null && currentUser.studyGroups !== undefined && currentUser.studyGroups.length > 0) {
+		tempDoc = tempDoc.filter((item) => !currentUser.studyGroups.includes(item.id))
+	}
 	return tempDoc
 }
 

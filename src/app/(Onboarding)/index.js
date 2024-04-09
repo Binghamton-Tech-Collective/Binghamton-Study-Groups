@@ -50,24 +50,29 @@ const index = () => {
 						<Pressable
 							// TODO: ONLY NAVIGATE TO HOMESCREEN IF LOGIN IS SUCCESSFUL
 							onPress={() => {
-								SignIn(FirebaseAuth, email, password)
-									.then(userCredential => {
-										// Handle successful sign-in
-										const auth = FirebaseAuth().currentUser;
-										if (auth === null) {
-											alert("User authentication failed");
-										} else {
-											currentUser.setUniqueUserId(auth.uid);
+								if (!email || !password) {
+									setErrorMessage("Email or password cannot be empty")
+								}
+								else {
+									SignIn(FirebaseAuth, email, password)
+										.then(userCredential => {
+											// Handle successful sign-in
+											const auth = FirebaseAuth().currentUser;
+											if (auth === null) {
+												alert("User authentication failed");
+											} else {
+												currentUser.setUniqueUserId(auth.uid);
 
-											currentUser.initializeUser().then(() => {
+												currentUser.initializeUser().then(() => {
 
-												router.push('../(HomeScreen)/(Tabs)/homescreen');
-											})
-										}
-									})
-									.catch(error => {
-										setErrorMessage("Sign-in error: " + error.message);
-									});
+													router.push('../(HomeScreen)/(Tabs)/homescreen');
+												})
+											}
+										})
+										.catch(error => {
+											setErrorMessage("Sign-in failed: " + error.message);
+										});
+								}
 							}}
 							style={styles.orangeButton}
 						>

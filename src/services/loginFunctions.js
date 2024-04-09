@@ -9,7 +9,7 @@ const SignUp = async (auth, email, password) => {
 
     try {
         const userCredential = await FirebaseAuth().createUserWithEmailAndPassword(
-            
+
             email,
             password
         );
@@ -33,7 +33,6 @@ const SignIn = async (auth, email, password) => {
         );
         return userCredential;
     } catch (error) {
-        console.error("Sign-in failed:", error);
         throw error;
     }
 };

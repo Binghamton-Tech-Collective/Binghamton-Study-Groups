@@ -4,6 +4,7 @@ import ArrowButton from '../../components/functional/ArrowButton.js'
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
 import newUser from '../../services/newUser'
+import { validateEmail, validatePhoneNumber } from "../../services/loginFunctions.js"
 
 const signup = () => {
 	const [email, setEmail] = useState('')
@@ -76,9 +77,27 @@ const signup = () => {
 					</Pressable>
 
 					<Pressable
-						// TODO: VALIDATE EMAIL AND PASSWORD BEFORE NAVIGATING TO USERSETUP?
 						style={styles.orangeButton}
-						onPress={() => (mode === 'email' ? setMode('phone') : router.push('userSetup'))}
+						onPress={() => {
+							if (mode === 'email') {
+								if (validateEmailResult != true) {
+									const validateEmailResult = validateEmail(email);
+									setErrorMessage(validateEmailResult)
+								}
+								else {
+									setMode('phone')
+								}
+							}
+							else {
+								if (validatePhoneNumberResult != true) {
+									const validatePhoneNumberResult = validatePhoneNumber(phoneNumber);
+									setErrorMessage(validatePhoneNumberResult)
+								}
+								else {
+									router.push('userSetup')
+								}
+							}
+						}}
 					>
 						<Text style={styles.orangeButtonText}>Next</Text>
 					</Pressable>

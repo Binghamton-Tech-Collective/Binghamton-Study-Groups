@@ -75,10 +75,6 @@ const styles = StyleSheet.create({
 	},
 	stepFlex: {
 		flexDirection: 'row',
-	},
-	errorMessage: {
-		color: "red",
-		fontWeight: "bold"
 	}
 })
 

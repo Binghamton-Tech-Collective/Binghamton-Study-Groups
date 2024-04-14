@@ -1,27 +1,14 @@
-import React, { useState, useContext, createContext } from 'react'
+import React, { useState, useContext, createContext, useEffect } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
 import styles from '../../../styles/discoverPage'
 import { Link, router } from 'expo-router'
+import { getSuggestedUsers, getSuggestedGroups } from '../../../services/suggestedFunctions.js'
 
 /*
 	Discover Page: Where users can discover new study groups friend recommendations from related users
 */
 
-const SAMPLE_USERS = [
-	{ fullName: 'Ashley Flower', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Thomas Higton', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Susane Violet', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'David Moon', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'George Li', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'John Doe', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Sam West', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Cassidy Hope', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Matthew Ford', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Jane Smith', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Alex Johnson', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Emily Davis', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-	{ fullName: 'Michael Brown', pronouns: 'He/Him', profileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113' },
-]
+// TODO: REPLACE SAMPLE_GROUPS WITH SUGGESTEDGROUPS ONCE SUGGESTEDGROUPS COLLECTION IS DONE.
 
 const SAMPLE_GROUPS = [
 	{
@@ -51,10 +38,37 @@ const SAMPLE_GROUPS = [
 	},
 ]
 
-export const users = createContext(SAMPLE_USERS)
 export const groups = createContext(SAMPLE_GROUPS)
 
 const index = () => {
+	const [suggestedUsers, setSuggestedUsers] = useState([])
+	const [suggestedGroups, setSuggestedGroups] = useState([])
+
+	useEffect(() => {
+		const fetchSuggestedUsers = async () => {
+			try {
+				const result = await getSuggestedUsers()
+				setSuggestedUsers(result)
+				// console.log(result)
+			} catch (error) {
+				console.error(error)
+			}
+		}
+
+		const fetchSuggestedGroups = async () => {
+			try {
+				const result = await getSuggestedGroups()
+				setSuggestedGroups(result)
+				// console.log(result)
+			} catch (error) {
+				console.error(error)
+			}
+		}
+
+		fetchSuggestedUsers()
+		fetchSuggestedGroups()
+	}, [])
+
 	return (
 		<SafeAreaView>
 			<View style={styles.banner}>
@@ -69,22 +83,24 @@ const index = () => {
 			</View>
 
 			<View style={styles.usersContainer}>
-				{SAMPLE_USERS.slice(0, 9).map((user) => (
-					<View style={styles.userItem}>
-						<View style={styles.userItemFlex}>
-							<View style={{ flex: 1, flexDirection: 'col', alignItems: 'center' }}>
-								<Image style={styles.profileImage} source={{ uri: user.profileImageURL }} />
-								<Text numberOfLines={1} style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
-									{user.fullName}
-								</Text>
-								<Text style={{ color: '#92AA9D', fontSize: 12, textAlign: 'center' }}>{user.pronouns}</Text>
+				{suggestedUsers &&
+					suggestedUsers.slice(0, 9).map((user) => (
+						<View style={styles.userItem}>
+							<View style={styles.userItemFlex}>
+								<View style={{ flex: 1, flexDirection: 'col', alignItems: 'center' }}>
+									{/* // TODO: conditional rendering for pfp. default is shadow. */}
+									<Image style={styles.profileImage} source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png' }} />
+									<Text numberOfLines={1} style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
+										{user.fullName.fullName}
+									</Text>
+									<Text style={{ color: '#92AA9D', fontSize: 12, textAlign: 'center' }}>{user.email.email}</Text>
+								</View>
+								<TouchableOpacity style={styles.button}>
+									<Text>Add</Text>
+								</TouchableOpacity>
 							</View>
-							<TouchableOpacity style={styles.button}>
-								<Text>Add</Text>
-							</TouchableOpacity>
 						</View>
-					</View>
-				))}
+					))}
 			</View>
 
 			<View style={{ marginTop: 310 }}>

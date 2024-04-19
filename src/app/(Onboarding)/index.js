@@ -1,9 +1,10 @@
 import { View, Text, Pressable, TextInput, StyleSheet, Image, SafeAreaView, Alert } from 'react-native'
 import React, { useState, useContext, createContext } from 'react'
 import ArrowButton from '../../components/functional/ArrowButton.js'
+import ErrorMessage from "../../components/functional/ErrorMessage.js"
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
-import { SignIn } from '../../services/loginFunctions.js'
+import { SignIn, validateEmail, validatePassword } from '../../services/loginFunctions.js'
 import FirebaseAuth from '@react-native-firebase/auth'
 import currentUser from '../../services/currentUser.js'
 import newUser from '../../server/newUser.js'
@@ -50,8 +51,13 @@ const index = () => {
 						<Pressable
 							// TODO: ONLY NAVIGATE TO HOMESCREEN IF LOGIN IS SUCCESSFUL
 							onPress={() => {
-								if (!email || !password) {
-									setErrorMessage("Email or password cannot be empty")
+								const validateEmailResult = validateEmail(email);
+								const validatePasswordResult = validatePassword(password);
+								if (validateEmailResult != true) {
+									setErrorMessage(validateEmailResult)
+								}
+								else if (validatePasswordResult != true) {
+									setErrorMessage(validatePasswordResult)
 								}
 								else {
 									SignIn(FirebaseAuth, email, password)
@@ -79,12 +85,12 @@ const index = () => {
 							<Text style={styles.orangeButtonText}>Log In</Text>
 						</Pressable>
 						{errorMessage !== '' && (
-							<Text style={styles.errorMessage}>{errorMessage}</Text>
+							<ErrorMessage message={errorMessage} />
 						)}
 					</View>
 				</View>
 			</View>
-		</SafeAreaView>
+		</SafeAreaView >
 	)
 }
 export default index

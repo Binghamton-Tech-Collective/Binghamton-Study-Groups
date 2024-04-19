@@ -1,13 +1,16 @@
 import { View, Text, Pressable, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native'
 import React, { useState, useContext, createContext } from 'react'
 import ArrowButton from '../../components/functional/ArrowButton.js'
+import ErrorMessage from '../../components/functional/ErrorMessage.js'
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
 import newUser from '../../services/newUser'
+import { validateFullName, validatePassword } from "../../services/loginFunctions.js"
 
 const userSetup = () => {
 	const [password, setPassword] = useState('')
 	const [fullName, setFullName] = useState('')
+	const [errorMessage, setErrorMessage] = useState("")
 
 	return (
 		<SafeAreaView>
@@ -38,12 +41,26 @@ const userSetup = () => {
 					placeholder="Password"
 				/>
 				<Pressable
-					// TODO: ONLY NAVIGATE TO USERINFO IF SIGNUP IS SUCCESSFUL
 					style={styles.orangeButton}
-					onPress={() => router.push('userInfo')}
+					onPress={() => {
+						const validateFullNameResult = validateFullName(fullName)
+						const validatePasswordResult = validatePassword(password)
+						if (validateFullNameResult != true) {
+							setErrorMessage(validateFullNameResult)
+						}
+						else if (validatePasswordResult != true) {
+							setErrorMessage(validatePasswordResult)
+						}
+						else {
+							router.push('userInfo')
+						}
+					}}
 				>
 					<Text style={styles.orangeButtonText}>Next</Text>
 				</Pressable>
+				{errorMessage !== '' && (
+					<ErrorMessage message={errorMessage} />
+				)}
 			</View>
 		</SafeAreaView>
 	)

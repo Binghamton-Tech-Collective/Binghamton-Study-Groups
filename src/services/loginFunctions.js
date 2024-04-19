@@ -17,7 +17,7 @@ const validatePassword = (password) => {
     //     return "Error: Password is too weak. It must contain at least 8 characters, an upper and lowercase character, a digit, and at least one special character (@$!%*?&).";
     // }
 
-    const regex = /{1,}/
+    const regex = /.+/
     if (!regex.test(password)) {
         return "Error: Password must not be empty";
     }

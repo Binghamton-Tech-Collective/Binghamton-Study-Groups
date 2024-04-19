@@ -1,6 +1,7 @@
 import { View, Text, Pressable, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native'
 import React, { useState, useContext, createContext } from 'react'
 import ArrowButton from '../../components/functional/ArrowButton.js'
+import ErrorMessage from '../../components/functional/ErrorMessage.js'
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
 import newUser from '../../services/newUser'
@@ -10,6 +11,7 @@ const signup = () => {
 	const [email, setEmail] = useState('')
 	const [phoneNumber, setPhoneNumber] = useState('')
 	const [mode, setMode] = useState('email')
+	const [errorMessage, setErrorMessage] = useState("")
 
 	return (
 		<SafeAreaView>
@@ -80,20 +82,22 @@ const signup = () => {
 						style={styles.orangeButton}
 						onPress={() => {
 							if (mode === 'email') {
+								const validateEmailResult = validateEmail(email);
 								if (validateEmailResult != true) {
-									const validateEmailResult = validateEmail(email);
 									setErrorMessage(validateEmailResult)
 								}
 								else {
+									setErrorMessage("")
 									setMode('phone')
 								}
 							}
 							else {
+								const validatePhoneNumberResult = validatePhoneNumber(phoneNumber);
 								if (validatePhoneNumberResult != true) {
-									const validatePhoneNumberResult = validatePhoneNumber(phoneNumber);
 									setErrorMessage(validatePhoneNumberResult)
 								}
 								else {
+									setErrorMessage("")
 									router.push('userSetup')
 								}
 							}
@@ -101,6 +105,9 @@ const signup = () => {
 					>
 						<Text style={styles.orangeButtonText}>Next</Text>
 					</Pressable>
+					{errorMessage !== '' && (
+						<ErrorMessage message={errorMessage} />
+					)}
 				</View>
 			)}
 		</SafeAreaView>

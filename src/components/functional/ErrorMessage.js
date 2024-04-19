@@ -1,4 +1,4 @@
-import { Text } from "react-native"
+import { Text, StyleSheet } from "react-native"
 
 const ErrorMessage = (props) => {
     return (<Text style={styles.errorMessage}>{props.message}</Text>)

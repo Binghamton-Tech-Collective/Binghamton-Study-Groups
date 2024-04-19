@@ -1,6 +1,7 @@
 import { View, Text, Pressable, TextInput, StyleSheet, Image, SafeAreaView } from 'react-native'
 import React, { useState, useContext, createContext } from 'react'
 import ArrowButton from '../../components/functional/ArrowButton.js'
+import ErrorMessage from '../../components/functional/ErrorMessage.js'
 import { Link, router } from 'expo-router'
 import styles from '../../styles/signInPage.js'
 import newUser from '../../services/newUser'
@@ -9,6 +10,7 @@ import { validateFullName, validatePassword } from "../../services/loginFunction
 const userSetup = () => {
 	const [password, setPassword] = useState('')
 	const [fullName, setFullName] = useState('')
+	const [errorMessage, setErrorMessage] = useState("")
 
 	return (
 		<SafeAreaView>
@@ -56,6 +58,9 @@ const userSetup = () => {
 				>
 					<Text style={styles.orangeButtonText}>Next</Text>
 				</Pressable>
+				{errorMessage !== '' && (
+					<ErrorMessage message={errorMessage} />
+				)}
 			</View>
 		</SafeAreaView>
 	)

@@ -1,29 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
-import { groups } from './(Tabs)/discover.js'
 import styles from '../../styles/discoverPage.js'
 import { Link, router } from 'expo-router'
-import { getSuggestedUsers, getSuggestedGroups } from '../../services/suggestedFunctions.js'
+import discoverInfo from "../../services/discoverInfo.js"
 
 const groupForYou = () => {
-	// TODO: CURRENTLY DISPLAYS SAMPLE_GROUPS, NOT SUGGESTEDGROUPS. DELETE SAMPLE_GROUPS WHEN STUDYGROUPS COLLECTION IS FINISHED.
-
-	const SAMPLE_GROUPS = useContext(groups)
-	const [suggestedGroups, setSuggestedGroups] = useState([])
-
-	useEffect(() => {
-		const fetchSuggestedGroups = async () => {
-			try {
-				const result = await getSuggestedGroups()
-				setSuggestedGroups(result)
-				// console.log(result)
-			} catch (error) {
-				console.error(error)
-			}
-		}
-		fetchSuggestedGroups()
-	}, [])
-
 	return (
 		<SafeAreaView>
 			<View style={styles.banner}>
@@ -35,14 +16,14 @@ const groupForYou = () => {
 			</Pressable>
 
 			<View style={styles.groupsContainer}>
-				{SAMPLE_GROUPS.map((group) => (
-					<View style={styles.groupItem}>
+				{discoverInfo.suggestedGroups.map((group, index) => (
+					<View key={index} style={styles.groupItem}>
 						<View style={styles.groupItemFlex}>
 							<View style={{ flexDirection: 'row', flex: 1, gap: 6 }}>
-								<Image style={styles.profileImage} source={{ uri: group.groupProfileImageURL }} />
+								<Image style={styles.profileImage} source={{ uri: group.ImageURL }} />
 								<View style={{ flexDirection: 'col', flex: 1 }}>
-									<Text style={{ color: 'white', fontSize: 16 }}>{group.groupName}</Text>
-									<Text style={{ color: '#92AA9D', fontSize: 12 }}>{group.numberOfMembers} buddies</Text>
+									<Text style={{ color: 'white', fontSize: 16 }}>{group.Name}</Text>
+									<Text style={{ color: '#92AA9D', fontSize: 12 }}>{group.Members.length} buddies</Text>
 								</View>
 							</View>
 							<TouchableOpacity style={styles.button}>

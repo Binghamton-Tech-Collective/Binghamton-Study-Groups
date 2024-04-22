@@ -1,55 +1,22 @@
-import React, { useState, useContext, createContext, useEffect } from 'react'
+import React, { useState, createContext, useEffect } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Pressable } from 'react-native'
 import styles from '../../../styles/discoverPage'
 import { Link, router } from 'expo-router'
 import { getSuggestedUsers, getSuggestedGroups } from '../../../services/suggestedFunctions.js'
+import discoverInfo from "../../../services/discoverInfo.js"
 
 /*
 	Discover Page: Where users can discover new study groups friend recommendations from related users
 */
 
-// TODO: REPLACE SAMPLE_GROUPS WITH SUGGESTEDGROUPS ONCE SUGGESTEDGROUPS COLLECTION IS DONE.
-
-const SAMPLE_GROUPS = [
-	{
-		groupName: 'Calculus',
-		groupProfileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113',
-		numberOfMembers: 7,
-	},
-	{
-		groupName: 'Orgo',
-		groupProfileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113',
-		numberOfMembers: 4,
-	},
-	{
-		groupName: 'Computer Science',
-		groupProfileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113',
-		numberOfMembers: 5,
-	},
-	{
-		groupName: 'Physics',
-		groupProfileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113',
-		numberOfMembers: 2,
-	},
-	{
-		groupName: 'Business',
-		groupProfileImageURL: 'https://www.shenandoahpaint.com/cdn/shop/products/A3CDB5_1024x.png?v=1606782113',
-		numberOfMembers: 6,
-	},
-]
-
-export const groups = createContext(SAMPLE_GROUPS)
-
 const index = () => {
 	const [suggestedUsers, setSuggestedUsers] = useState([])
-	const [suggestedGroups, setSuggestedGroups] = useState([])
 
 	useEffect(() => {
 		const fetchSuggestedUsers = async () => {
 			try {
 				const result = await getSuggestedUsers()
 				setSuggestedUsers(result)
-				// console.log(result)
 			} catch (error) {
 				console.error(error)
 			}
@@ -58,8 +25,7 @@ const index = () => {
 		const fetchSuggestedGroups = async () => {
 			try {
 				const result = await getSuggestedGroups()
-				setSuggestedGroups(result)
-				// console.log(result)
+				discoverInfo.suggestedGroups = result;
 			} catch (error) {
 				console.error(error)
 			}
@@ -113,14 +79,14 @@ const index = () => {
 			</View>
 
 			<View style={styles.groupsContainer}>
-				{SAMPLE_GROUPS.slice(0, 3).map((group) => (
+				{discoverInfo.suggestedGroups.slice(0, 3).map((group) => (
 					<View style={styles.groupItem}>
 						<View style={styles.groupItemFlex}>
 							<View style={{ flexDirection: 'row', flex: 1, gap: 6 }}>
-								<Image style={styles.profileImage} source={{ uri: group.groupProfileImageURL }} />
+								<Image style={styles.profileImage} source={{ uri: group.ImageURL }} />
 								<View style={{ flexDirection: 'col', flex: 1 }}>
-									<Text style={{ color: 'white', fontSize: 16 }}>{group.groupName}</Text>
-									<Text style={{ color: '#92AA9D', fontSize: 12 }}>{group.numberOfMembers} buddies</Text>
+									<Text style={{ color: 'white', fontSize: 16 }}>{group.Name}</Text>
+									<Text style={{ color: '#92AA9D', fontSize: 12 }}>{group.Members.length} buddies</Text>
 								</View>
 							</View>
 							<TouchableOpacity style={styles.button}>
